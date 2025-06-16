@@ -14,7 +14,7 @@ unsafe fn panic(info: &PanicInfo) -> ! {
     print("Panic! ".as_ptr() as PCChar);
     if let Some(location) = info.location() {
 
-	print("PANICKED LOCAT".as_ptr() as PCChar);
+	print("PANICKED".as_ptr() as PCChar);
 
         let file = location.file();
         let line = location.line();
@@ -45,7 +45,7 @@ pub unsafe fn history(s: PCChar) {
     HISTORY_INDEX += 1;
 }
 
-pub unsafe fn initalize_terminal() {
+pub unsafe fn initialize_terminal() {
     let pathter = exec(b"pwd\0".as_ptr() as PCChar);
     print(pathter.output as PCChar); 
     print("-> ".as_ptr() as PCChar);
@@ -56,9 +56,6 @@ pub unsafe fn initalize_terminal() {
     match str_split.next().unwrap_or("") {
 	"exit\n" => {
 	    quit(0);
-	}
-	"panictest\n" => {
-	    panic!("my panic info");
 	}
 	"cd" => {
 	    static mut BUFFER: [u8; 128] = [0; 128];
@@ -82,7 +79,7 @@ pub unsafe fn initalize_terminal() {
 #[no_mangle]
 pub unsafe extern "C" fn main() -> i32 {
     loop {
-        initalize_terminal();
+        initialize_terminal();
     }
 }
 
